@@ -6,7 +6,7 @@ export default function ReloadIcon({ load }) {
   const reloadIconName = Platform.OS === "ios" ? "ios-refresh" : "md-refresh";
   return (
     <View style={styles.reloadIcon}>
-      <Ionicons onPress={load} name={reloadIconName} size={32} color="black" />
+      <Ionicons onPress={load} name={reloadIconName} size={32} color="white" />
     </View>
   );
 }

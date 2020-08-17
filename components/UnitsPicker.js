@@ -9,7 +9,8 @@ export default function UnitsPicker({ unitSystem, setUnitSystem }) {
         selectedValue={unitSystem}
         onValueChange={(item) => setUnitSystem(item)}
         mode="dropdown"
-        itemStyle={{ fontSize: 12 }}
+        // itemStyle={{ fontSize: 12 }}
+        style={{ color: "#fff", fontSize: 19 }}
       >
         <Picker.Item label="C°" value="metric" />
         <Picker.Item label="F°" value="imperial " />
@@ -31,6 +32,6 @@ const styles = StyleSheet.create({
     }),
     left: 20,
     height: 50,
-    width: 100,
+    width: 80,
   },
 });

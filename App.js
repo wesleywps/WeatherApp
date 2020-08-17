@@ -2,7 +2,13 @@
 
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  ImageBackground,
+} from "react-native";
 import * as Location from "expo-location";
 import { AppLoading } from "expo";
 import WeatherInfo from "./components/WeatherInfo";
@@ -14,6 +20,8 @@ import WeatherDetails from "./components/WeatherDetails";
 
 const WEATHER_API_KEY = "6f050aacb14fb92d1a9d4c6df8de3d3b";
 const BASE_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
+const BASE_WEATHER_5DAYS_URL =
+  "https://api.openweathermap.org/data/2.5/forecast?";
 const LANGUAGE = "pt_br";
 
 export default function App() {
@@ -36,13 +44,17 @@ export default function App() {
       const location = await Location.getCurrentPositionAsync();
       const { latitude, longitude } = location.coords;
       const weatherUrl = `${BASE_WEATHER_URL}lat=${latitude}&lon=${longitude}&units=${unitSystem}&appid=${WEATHER_API_KEY}&lang=${LANGUAGE}`;
+      const weatherUrl5Days = `${BASE_WEATHER_5DAYS_URL}lat=${latitude}&lon=${longitude}&units=${unitSystem}&appid=${WEATHER_API_KEY}&lang=${LANGUAGE}`;
       const responseAPI = await fetch(weatherUrl);
       const result = await responseAPI.json();
+      // console.log(weatherUrl5Days);
       // console.log(result);
 
       if (responseAPI.ok) {
+        console.log("API respondeu");
         setCurrentWeather(result);
       } else {
+        console.log("API não respondeu");
         setErrorMessage(result.message);
       }
     } catch (error) {
@@ -52,7 +64,8 @@ export default function App() {
   if (currentWeather) {
     return (
       <View style={styles.container}>
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
+
         <View style={styles.main}>
           <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
           <ReloadIcon load={load} />
@@ -78,7 +91,7 @@ export default function App() {
     return (
       <View style={styles.container}>
         <StatusBar style="auto" />
-        <Text>Deu Ruim</Text>
+        <Text style={{ alignItems: "center" }}>Deu Ruim</Text>
         <ActivityIndicator size="large" color={colors.LOADING_COLOR} />
       </View>
     );
@@ -89,10 +102,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#fafafa",
+    backgroundColor: "#6376ce",
   },
   main: {
     flex: 1,
     justifyContent: "center",
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover", // or 'stretch'
   },
 });
